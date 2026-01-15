@@ -13,7 +13,7 @@ Subscription Tracker is a Next.js (App Router) web application that helps users 
 ## Live Services
 | Layer    | Platform | Link |
 |----------|----------|------|
-| Web App  | (TBD)    | —    |
+| Web App  | (TBD)    | https://subify91169.vercel.app/   |
 
 ## Repository Structure
 ```
