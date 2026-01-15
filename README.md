@@ -107,5 +107,15 @@ Access the app at `http://localhost:3000`. Use the signup page at `/signup` for 
 - Add automated tests for UI and actions
 - Improve error handling and toast feedback across flows
 
-## Authors
-- Shitanshu Singh
+
+- ## 🌟 Project
+**Subify** – Subscription Tracker Application  
+
+🔗 Live Project: https://subify91169.vercel.app  
+💻 GitHub: https://github.com/Silence91169  
+
+---
+## 👤 Author
+- **Shitanshu Singh**
+
+
