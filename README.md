@@ -1,121 +1,162 @@
-# Subscription Tracker
+# Subify — Subscription Tracker
 
-![Next.js](https://img.shields.io/badge/Next.js-14+-000000?logo=nextdotjs&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-Platform-3FCF8E?logo=supabase&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Overview
-Subscription Tracker is a Next.js (App Router) web application that helps users sign up and manage subscriptions with modern UI components and Supabase-backed authentication. It includes email/password signup, Google OAuth, and a rich set of reusable UI primitives.
+Subify is a full-stack subscription management app built with Next.js 15 (App Router). It lets users track recurring expenses, view spending analytics, get renewal alerts, and manage their profile — all backed by Supabase auth and database.
 
-## Live Services
-| Layer    | Platform | Link |
-|----------|----------|------|
-| Web App  | (TBD)    | https://subify91169.vercel.app/   |
+**Live:** https://subify91169.vercel.app
 
-## Repository Structure
-```
-.
-├─ src/
-│  ├─ app/
-│  │  └─ signup/page.tsx          # Signup page using actions + Suspense
-│  ├─ components/
-│  │  ├─ auth-layout.tsx          # Auth page layout wrapper (imported)
-│  │  ├─ icons.tsx                # Icon set (imported)
-│  │  └─ ui/                      # Shadcn-style UI primitives (buttons, inputs, menus, etc.)
-│  ├─ hooks/
-│  │  └─ use-mobile.ts            # Mobile detection hook
-│  ├─ lib/
-│  │  ├─ actions/subscriptions.ts # Subscription-related actions
-│  │  ├─ hooks/use-mobile.tsx     # Hook variant
-│  │  └─ utils.ts                 # Shared utilities
-│  ├─ utils/supabase/             # Supabase client/server/middleware helpers
-│  └─ visual-edits/               # Visual edit messenger + tagger loader
-├─ tsconfig.json
-└─ package.json
-```
-
-## Tech Stack
-- **Frontend:** Next.js (App Router), React 19, TypeScript
-- **Styling:** Tailwind CSS, shadcn/ui components, Headless UI, Floating UI
-- **Icons:** Lucide React
-- **Auth & Data:** Supabase (email/password, Google OAuth)
-- **Tooling:** npm, ESLint/TS config (from tsconfig), Node.js
-
-## High-Level Architecture
-- **Client (Next.js App Router):** React components render pages and UI primitives. Auth-related pages (e.g., `/signup`) use server actions for form handling and Supabase integration.
-- **Auth & Data Layer:** Supabase client/server helpers handle authentication flows (email/password and Google OAuth). Actions under `src/app/auth/actions` orchestrate sign-in/up and redirect logic.
-- **UI Layer:** A library of reusable UI components in `src/components/ui` powers forms, dialogs, menus, tables, and feedback elements.
-- **Utilities:** Shared hooks (mobile detection) and helpers support responsive behavior and cross-component utilities.
+---
 
 ## Features
-- Email/password signup form with validation states
-- Google OAuth signup/sign-in
-- Suspense-powered loading fallback for auth pages
-- Reusable UI kit (buttons, inputs, dialogs, menus, tables, skeletons, etc.)
-- Mobile-awareness hooks for responsive behavior
-- Supabase client/server utilities for authenticated requests
-- Visual edits messenger/tagger utilities (for embedding or visual instrumentation)
 
-## API Endpoints
-No public REST endpoints are defined in the provided code. Next.js server actions are used for auth flows (e.g., `signup`, `signInWithGoogle`).
+- **Authentication** — Email/password and Google OAuth via Supabase; session management via middleware
+- **Subscription CRUD** — Add, edit, delete subscriptions with category, cost, billing cycle, renewal date, and status
+- **Dashboard Overview** — Monthly spending, active plans count, next renewal, yearly projection; upcoming renewals table; spending breakdown pie chart
+- **Analytics** — Spending by category (pie chart), top 5 expenses, savings opportunity suggestions, efficiency score
+- **Renewal Alerts** — Critical alerts (within 3 days) and upcoming renewals (within 30 days)
+- **Export** — Download subscriptions as CSV
+- **AI Chatbot** — "Tricker AI" floating assistant (simulated responses, extensible)
+- **Dark / Light Mode** — System-aware theme toggle via next-themes
+- **Responsive Design** — Mobile-first layout with collapsible sidebar
 
-## Installation
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15.5 (App Router, Turbopack) |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS 4, shadcn/ui, Radix UI |
+| Animations | Framer Motion |
+| Charts | Recharts |
+| Forms | React Hook Form + Zod |
+| Auth & DB | Supabase |
+| Notifications | Sonner |
+| Icons | Lucide React |
+| Deployment | Vercel |
+
+---
+
+## Repository Structure
+
+```
+src/
+├── app/
+│   ├── page.tsx                        # Landing page (hero, features, pricing, FAQ)
+│   ├── login/page.tsx                  # Email/password + Google OAuth login
+│   ├── signup/page.tsx                 # Email/password + Google OAuth signup
+│   ├── forgot-password/page.tsx        # Password recovery
+│   ├── coming-soon/page.tsx            # Placeholder page
+│   ├── auth/
+│   │   ├── actions.ts                  # Server actions: signup, login, logout, updateProfile, changePassword, signInWithGoogle
+│   │   ├── callback/route.ts           # OAuth callback handler
+│   │   └── auth-code-error/page.tsx    # Auth error display
+│   └── dashboard/                      # Protected routes (auth required)
+│       ├── layout.tsx                  # Sidebar + header layout
+│       ├── page.tsx                    # Overview: stats, renewals, charts
+│       ├── subscriptions/page.tsx      # Subscription management table
+│       ├── analytics/page.tsx          # Spending insights & reports
+│       ├── alerts/page.tsx             # Renewal alerts
+│       ├── profile/page.tsx            # User profile editing
+│       └── settings/page.tsx           # Password & theme settings
+├── components/
+│   ├── dashboard/
+│   │   ├── ai-chatbot.tsx              # Tricker AI floating chatbot
+│   │   ├── notification-bell.tsx       # Notification indicator
+│   │   ├── stats-charts.tsx            # Category breakdown pie chart
+│   │   ├── profile-form.tsx            # Profile update form
+│   │   ├── password-change-form.tsx    # Password change form
+│   │   └── settings-form.tsx           # Settings form
+│   ├── subscriptions/
+│   │   ├── subscription-list.tsx       # Table with filter, sort, export
+│   │   ├── subscription-dialog.tsx     # Add / edit modal (Zod-validated)
+│   │   └── connect-service-modal.tsx   # Service connection placeholder
+│   └── ui/                             # 50+ shadcn/ui primitives
+├── lib/
+│   ├── actions/subscriptions.ts        # Subscription CRUD server actions + getDashboardStats
+│   └── utils.ts                        # formatCurrency, cn helpers
+└── utils/supabase/
+    ├── client.ts                        # Browser Supabase client
+    ├── server.ts                        # Server Supabase client
+    └── middleware.ts                    # Session refresh middleware
+```
+
+---
+
+## Database Schema
+
+```sql
+CREATE TABLE subscriptions (
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id      UUID REFERENCES auth.users NOT NULL,
+  name         VARCHAR NOT NULL,
+  category     VARCHAR CHECK (category IN ('Entertainment','SaaS','Fitness','Education','Other')),
+  cost         DECIMAL NOT NULL,
+  billing_cycle VARCHAR CHECK (billing_cycle IN ('monthly','yearly')),
+  renewal_date DATE NOT NULL,
+  status       VARCHAR CHECK (status IN ('active','cancelled')),
+  created_at   TIMESTAMPTZ DEFAULT now(),
+  updated_at   TIMESTAMPTZ DEFAULT now()
+);
+```
+
+---
+
+## Getting Started
+
 ### Prerequisites
 - Node.js 18+
 - npm
-- Supabase project (for auth + database)
+- A Supabase project
 
-### Steps
+### Installation
+
 ```bash
-# Install dependencies
+git clone https://github.com/Silence91169/Subify.git
+cd Subify
 npm install
-
-# (Optional) If peer conflicts occur
-npm install --legacy-peer-deps
 ```
 
-## Environment Variables
-Create a `.env` with:
+### Environment Variables
+
+Create a `.env` file in the root:
+
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-url.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-supabase-anon-key
-
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-anon-key
 ```
 
-## Usage
+### Running
+
 ```bash
-# Run dev server
-npm run dev
-
-# Lint (if configured)
-npm run lint
-
-# Build
-npm run build
-
-# Start production build
-npm run start
+npm run dev      # Dev server (Turbopack)
+npm run build    # Production build
+npm run start    # Serve production build
+npm run lint     # ESLint
 ```
-Access the app at `http://localhost:3000`. Use the signup page at `/signup` for email or Google OAuth flows.
 
-## Roadmap
-- Add deployment pipeline and live hosting
-- Expose subscription CRUD pages and APIs
-- Add automated tests for UI and actions
-- Improve error handling and toast feedback across flows
-
-
-- ## 🌟 Project
-**Subify** – Subscription Tracker Application  
-
-🔗 Live Project: https://subify91169.vercel.app  
-💻 GitHub: https://github.com/Silence91169  
+Access the app at `http://localhost:3000`.
 
 ---
-## 👤 Author
-- **Shitanshu Singh**
 
+## Roadmap
 
+- [ ] Connect Tricker AI to a real LLM (Claude / OpenAI)
+- [ ] Email reminders for upcoming renewals
+- [ ] Multi-currency support
+- [ ] Shared subscription splitting
+- [ ] Automated tests (unit + e2e)
+
+---
+
+## Author
+
+**Shitanshu Singh** — [GitHub](https://github.com/Silence91169)
